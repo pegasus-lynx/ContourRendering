@@ -1,42 +1,36 @@
+BUILD_DIR := "./build"
+# $(wildcard *.cpp /xxx/xxx/*.cpp): get all .cpp files from the current directory and dir "/xxx/xxx/"
+CPP_SRCS := $(wildcard *.cpp)
+# $(patsubst %.cpp,%.o,$(SRCS)): substitute all ".cpp" file name strings to ".o" file name strings
+OBJS := $(patsubst %.cpp,%.o,$(CPP_SRCS))
 
-TARGET_EXEC ?= a.out
+HPP_SRCS := $(wildcard *.hpp)
 
-BUILD_DIR ?= ./build
-SRC_DIRS ?= .
+CC := g++
 
-SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
-OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
-DEPS := $(OBJS:.o=.d)
+# Linux (default)
+EXE = $(BUILD)/contour
+LDFLAGS = -lGL -lGLU -lglut
 
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+# Windows (cygwin)
+ifeq ($(OS), "Windows_NT")
+	EXE = $(BUILD)/$(EXE).exe
+	LDFLAGS = -lopengl32 -lglu32 -lglut32
+endif
 
-CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
+# OS X
+ifeq "$(shell uname)" "Darwin"
+	LDFLAGS = -framework Carbon -framework OpenGL -framework GLUT
+endif
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+all: $(EXE)
 
-# assembly
-$(BUILD_DIR)/%.s.o: %.s
-	$(MKDIR_P) $(dir $@)
-	$(AS) $(ASFLAGS) -c $< -o $@
+$(EXE): $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
 
-# c source
-$(BUILD_DIR)/%.c.o: %.c
-	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-# c++ source
-$(BUILD_DIR)/%.cpp.o: %.cpp
-	$(MKDIR_P) $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
-
-
-.PHONY: clean
+$(OBJS): $(HPP_SRCS)
 
 clean:
-	$(RM) -r $(BUILD_DIR)
+	rm -rf $(TARGET) $(OBJS)
 
--include $(DEPS)
-
-MKDIR_P ?= mkdir -p
+.PHONY: all clean
