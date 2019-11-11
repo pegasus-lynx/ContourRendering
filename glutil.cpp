@@ -1,5 +1,5 @@
-#include "macros.h"
-#include "glutil.h"
+#include "macros.hpp"
+#include "glutil.hpp"
 
 using namespace std;
 

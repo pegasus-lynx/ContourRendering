@@ -1,10 +1,11 @@
 #ifndef GLSHAPE_H
 #define GLSHAPE_H
 
-
+#include "macros.hpp"
+using namespace std;
 
 // Structs to hold informations about the primitives :
-class Color{
+class Color {
     public:
         float r, g, b, a;
 
@@ -13,7 +14,7 @@ class Color{
         float* vec();
 };
 
-class Primitive{
+class Primitive {
     public:
         Color color;
 
@@ -23,7 +24,7 @@ class Primitive{
         void plot();
 };
 
-class Closed : public Primitive{
+class Closed : public Primitive {
     public:
         Color fillColor;
 
@@ -32,17 +33,19 @@ class Closed : public Primitive{
         void plot();
 };
 
-class Point : public Primitive{
+class Point : public Primitive {
     public:
-        pair<double,double> pos;
+        double x, y, z;
+        int dimension;
 
         Point();
-        Point(double x,double y);
+        Point(double x, double y);
+        Point(double x, double y, double z);
         double* getPos();
         void plot();
 };
 
-class Line : public Primitive{
+class Line : public Primitive {
     public:
         Point stPoint, endPoint;
 
@@ -53,18 +56,17 @@ class Line : public Primitive{
         
 };
 
-class Circle : public Closed{
+class Circle : public Closed {
     public:
         Point center;
         double radius;
 
         Circle();
-        Circle(double rad, double xc, double yc);
         Circle(double rad, Point& center);
         void plot();
 };
 
-class Polygon : public Closed{
+class Polygon : public Closed {
     public:
         int n_vt;
         vector<Point> vertices;

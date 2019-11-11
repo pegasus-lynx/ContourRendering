@@ -1,5 +1,5 @@
-#include "macros.h"
-#include "glshape.h"
+#include "macros.hpp"
+#include "glshape.hpp"
 #include <GL/glut.h>
 
 using namespace std;
@@ -9,7 +9,7 @@ Color::Color(){
     a = 1;
 }
 
-Color::Color(float red,float green,float blue,float alpha=1.0){
+Color::Color(float red,float green,float blue,float alpha){
     r = red; g = green; b = blue; a = alpha;
 }
 
@@ -17,7 +17,7 @@ void Primitive::setCol(Color color){
     this->color = color;
 }
 
-void Primitive::setCol(float red,float green,float blue,float alpha=1.0){
+void Primitive::setCol(float red,float green,float blue,float alpha){
     this->color.r = red; 
     this->color.g = green; 
     this->color.b = blue; 
@@ -34,24 +34,35 @@ float* Color::vec(){
 }
 
 Point::Point(){
-    pos = {0.0,0.0};
+    x = 0, y = 0, z = 0;
+    dimension = 3;
     color = Color();
 }
 
 Point::Point(double x,double y){
-    pos = {x,y};
+    this->x = x, this->y = y;
+    dimension = 2;
     color = Color();
 }
 
-double* Point::getPos(){
-    double position[2] = {this->pos.first, this->pos.second};
+Point::Point(double x,double y, double z){
+    this->x = x, this->y = y, this->z = z;
+    dimension = 3;
+    color = Color();
+}
+
+double* Point::getPos() {
+    double position[dimension];
+    position[0] = x, position[1] = y;
+    if (dimension > 2)  position[2] = z;
     return position;
 }
 
 void Point::plot(){
     glColor4d(color.r,color.g,color.b,color.a);
     glBegin(GL_POINTS);
-        glVertex2d(pos.first, pos.second);
+    if (dimension == 2) glVertex2d(x, y);
+    else if (dimension == 3) glVertex3d(x, y, z);
     glEnd();
 }
 
@@ -76,21 +87,19 @@ Line::Line(double xa,double ya,double xb,double yb){
 void Line::plot(){
     glColor4d(color.r,color.g,color.b,color.a);
     glBegin(GL_LINE);
-        glVertex2d(stPoint.pos.X,stPoint.pos.Y);
-        glVertex2d(endPoint.pos.X,endPoint.pos.Y);
+
+    if(stPoint.dimension == 2)  glVertex2d(stPoint.x, stPoint.y);
+    else if (stPoint.dimension == 3) glVertex3d(stPoint.x, stPoint.y, stPoint.z);
+
+    if(endPoint.dimension == 2)  glVertex2d(endPoint.x, endPoint.y);
+    else if (endPoint.dimension == 3) glVertex3d(endPoint.x, endPoint.y, endPoint.z);
+
     glEnd();
 }
 
 Circle::Circle(){
     center = Point();
     radius = 0;
-    color = Color();
-    fillColor = Color(0.7,0.7,0.7);
-}
-
-Circle::Circle(double rad, double xc, double yc){
-    center = Point(xc,yc);
-    radius = rad;
     color = Color();
     fillColor = Color(0.7,0.7,0.7);
 }
@@ -138,7 +147,7 @@ void Polygon::plot(){
     glColor4d(color.r,color.g,color.b,color.a);
     glBegin(GL_LINE_LOOP);
         rep(i,0,vertices.size()){
-            glVertex2d(vertices[i].pos.X,vertices[i].pos.Y);
+            glVertex2d(vertices[i].x,vertices[i].y);
         }
     glEnd();
 }

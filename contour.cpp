@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include "conrec.hpp"
 
 using namespace std;
 
@@ -16,6 +15,5 @@ int main(void) {
     d[2] = d3;
     d[3] = d4;
     double z[] = {10, 30, 40};
-    conrec(d, 0, 4, 0, 4, x, y, 3, z);
     return 0;
 }
