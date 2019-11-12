@@ -33,6 +33,7 @@ class Closed : public Primitive {
         void plot();
 };
 
+// Represents a 2D/3D point
 class Point : public Primitive {
     public:
         double x, y, z;

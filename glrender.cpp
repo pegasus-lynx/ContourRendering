@@ -1,5 +1,5 @@
 #include "macros.hpp"
-#include "glutil.hpp"
+#include "glrender.hpp"
 
 using namespace std;
 

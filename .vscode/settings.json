@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "bitset": "cpp",
+        "complex": "cpp",
+        "functional": "cpp"
+    }
+}
