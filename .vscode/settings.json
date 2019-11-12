@@ -2,6 +2,7 @@
     "files.associations": {
         "bitset": "cpp",
         "complex": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "cmath": "cpp"
     }
 }

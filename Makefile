@@ -11,12 +11,12 @@ HPP_SRCS := $(wildcard $(INC_DIR)/*.hpp)
 
 CXXFLAGS := $(INC_DIR)
 # Linux (default)
-EXE = $(BUILD)/contour
+EXE = $(BUILD_DIR)/contour
 LDFLAGS = -lGL -lGLU -lglut $(INC_DIR)
 
 # Windows (cygwin)
 ifeq ($(OS), "Windows_NT")
-	EXE = $(BUILD)/$(EXE).exe
+	EXE = $(BUILD_DIR)/$(EXE).exe
 	LDFLAGS = -lopengl32 -lglu32 -lglut32 $(INC_DIR)
 endif
 

@@ -4,7 +4,7 @@
 #include "macros.hpp"
 using namespace std;
 
-// Structs to hold informations about the primitives :
+// Hold color data
 class Color {
     public:
         float r, g, b, a;
@@ -14,22 +14,20 @@ class Color {
         float* vec();
 };
 
+// Hold informations about the primitives
 class Primitive {
     public:
-        Color color;
-
-        void setCol(Color color);
-        void setCol(float red,float green,float blue,float alpha=1.0);
-
         void plot();
 };
 
 class Closed : public Primitive {
     public:
-        Color fillColor;
+        Color color, fillColor;
 
         void setFillCol(Color color);
         void setFillCol(float red,float green,float blue,float alpha=1.0);
+        void setCol(Color color);
+        void setCol(float red,float gren,float blue,float alpha=1.0);
         void plot();
 };
 
@@ -49,12 +47,14 @@ class Point : public Primitive {
 class Line : public Primitive {
     public:
         Point stPoint, endPoint;
+        Color color;
 
         Line();
         Line(Point& a, Point& b);
         Line(double xa,double ya,double xb,double yb);
+        void setCol(Color color);
+        void setCol(float red,float gren,float blue,float alpha=1.0);
         void plot();
-        
 };
 
 class Circle : public Closed {

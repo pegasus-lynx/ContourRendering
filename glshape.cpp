@@ -13,11 +13,11 @@ Color::Color(float red,float green,float blue,float alpha){
     r = red; g = green; b = blue; a = alpha;
 }
 
-void Primitive::setCol(Color color){
+void Closed::setCol(Color color){
     this->color = color;
 }
 
-void Primitive::setCol(float red,float green,float blue,float alpha){
+void Closed::setCol(float red,float green,float blue,float alpha){
     this->color.r = red; 
     this->color.g = green; 
     this->color.b = blue; 
@@ -36,19 +36,19 @@ float* Color::vec(){
 Point::Point(){
     x = 0, y = 0, z = 0;
     dimension = 3;
-    color = Color();
+    // color = Color();
 }
 
 Point::Point(double x,double y){
     this->x = x, this->y = y;
     dimension = 2;
-    color = Color();
+    // color = Color();
 }
 
 Point::Point(double x,double y, double z){
     this->x = x, this->y = y, this->z = z;
     dimension = 3;
-    color = Color();
+    // color = Color();
 }
 
 double* Point::getPos() {
@@ -59,7 +59,7 @@ double* Point::getPos() {
 }
 
 void Point::plot(){
-    glColor4d(color.r,color.g,color.b,color.a);
+    // glColor4d(color.r,color.g,color.b,color.a);
     glBegin(GL_POINTS);
     if (dimension == 2) glVertex2d(x, y);
     else if (dimension == 3) glVertex3d(x, y, z);
@@ -146,8 +146,8 @@ Polygon::Polygon(vector<pair<double, double> >& vec){
 void Polygon::plot(){
     glColor4d(color.r,color.g,color.b,color.a);
     glBegin(GL_LINE_LOOP);
-        rep(i,0,vertices.size()){
-            glVertex2d(vertices[i].x,vertices[i].y);
-        }
+    rep(i,0,vertices.size()){
+        glVertex2d(vertices[i].x,vertices[i].y);
+    }
     glEnd();
 }
