@@ -15,8 +15,8 @@ class Model {
 
         Model();
         void addContour();
-        void finishContour();
-        void deleteVertex();
+        // void deleteContour();
+        void listContours();
         void draw3D();
         void setCurrColor();
         void refresh();

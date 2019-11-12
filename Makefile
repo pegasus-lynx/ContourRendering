@@ -28,6 +28,7 @@ endif
 all: $(EXE)
 
 $(EXE): $(OBJS)
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS)
 
 $(OBJS): $(HPP_SRCS)

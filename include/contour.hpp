@@ -74,6 +74,7 @@ class ContourPlane {
         void addPoint(int contourNum, Point newPt);
         void draw3D(int planeNum,float sepStep, RenderStyle rStyle,bool meshOn,bool capOn);
         int getSize() {return planeContours.size(); }
+        void setColor(int planeNum);
         Color getColor();
         void optimizeTiling(int,int);
 };

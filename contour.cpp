@@ -244,6 +244,15 @@ void ContourPlane::draw3D(int planeNum, float sepStep,RenderStyle rStyle,bool me
         planeContours[i].draw3D(sepStep, planeNum, rStyle, meshOn, capOn, i);
 }
 
+void ContourPlane::setColor(int planeNum){
+    double v = (double)planeNum*0.05;
+    Color c(v,v,v,1);
+    
+    rep(i,0,planeContours.size()){
+        planeContours[i].color=c;
+    }
+}
+
 Color ContourPlane::getColor() {
     return planeContours[0].color;
 }
@@ -253,6 +262,7 @@ Color ContourPlane::getColor() {
  */
 
 void ContourBox::addPlane(ContourPlane newPlane) {
+    newPlane.setColor(contourSet.size());
     contourSet.pb(newPlane);
 }
 
