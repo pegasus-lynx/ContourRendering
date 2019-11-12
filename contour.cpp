@@ -280,7 +280,17 @@ void ContourBox::modifyPoint(int currLevel, Point target,int currPickC,int currP
 }
 
 void ContourBox::finishContourLoad(int planeNum, int contourNum) {
-    contourSet[planeNum].finishContour(contourNum, false);
+    contourSet[planeNum].finishContour(contourNum, true);
+    if (planeNum > 0 && contourSet[planeNum - 1].planeContours.size() > 0) {
+        contourSet[planeNum].optimizeTiling(planeNum, contourNum);
+    }
+    if (planeNum < contourSet.size() - 1) {
+        if (contourSet[planeNum].planeContours[contourNum].nextCont.size() > 0) {
+            for (int i = 0; i < contourSet[planeNum].planeContours[contourNum].nextCont.size(); ++i) {
+                contourSet[planeNum+1].optimizeTiling(planeNum+1, contourSet[planeNum].planeContours[contourNum].nextCont[i].y);
+            }
+        }
+    }
 }
 
 void ContourBox::draw3D(float sepStep,RenderStyle rStyle,bool meshOn,bool capOn) {

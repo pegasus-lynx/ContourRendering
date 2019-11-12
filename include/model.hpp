@@ -13,8 +13,11 @@ class Model {
         int currLevel;
         int numContours;
 
+        int sepPlane;
+
         Model();
         void addContour();
+        void loadContour(char *filename);
         // void deleteContour();
         void listContours();
         void draw3D();
