@@ -30,7 +30,7 @@ void display(){
 
 	glPushMatrix();
 
-	glTranslatef(-30.0f, -50.0f, 0.0f);
+	// glTranslatef(-30.0f, -50.0f, 0.0f);
     glRotatef(xRot, 1.0f, 0.0f, 0.0f);
     glRotatef(yRot, 0.0f, 1.0f, 0.0f);
 
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
     // cout << "Input contour filename: ";
     // cin >> fname;
 
-    model.loadContours("sample.txt");
+    model.loadContours("sample3.txt");
 
     // createWin(argc, argv, "Contour Rendering", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH, 100, 100, 500, 500);
 

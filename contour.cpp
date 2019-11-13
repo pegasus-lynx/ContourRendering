@@ -122,14 +122,9 @@ void getOptPath(cContour& low, cContour& up, vector<Point> &path){
 
     cout<<triangles.size()<<endl;
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glShadeModel(GL_SMOOTH);
-
     for(auto it:triangles){
         renderTriangle(it.first, it.second.first, it.second.second);
     }
-    glDisable(GL_BLEND);
 
     // Check the path :
     // cout<<"Debug : "<<path.size()<<endl;
@@ -169,6 +164,10 @@ void bContour::draw3D(){
     // Once the path is built, render the surface.
     // Loop the process for all heights.
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glShadeModel(GL_SMOOTH);
+
     rep(i,0,heights.size()-1){
         cContour &lower = contourSet[heights[i]];        
         cContour &upper = contourSet[heights[i+1]];
@@ -177,4 +176,6 @@ void bContour::draw3D(){
 
         getOptPath(lower,upper,optPath);
     }
+
+    glDisable(GL_BLEND);
 }
