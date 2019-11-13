@@ -5,23 +5,27 @@
 
 class Model {
     public:
-        ContourBox *contourBox;
-        RenderStyle rStyle;
-        bool meshOn, capsOn;
+        bContour *cBox;
+        // RenderStyle rStyle;
+        // bool meshOn, capsOn;
 
-        Color currCol;
-        int currLevel;
-        int numContours;
+        // Color currCol;
+        // int currLevel;
+        // int numContours;
 
-        int sepPlane;
+        // int sepPlane;
 
         Model();
         void addContour();
-        void loadContour(char *filename);
+        void loadContours(char *filename);
+        
         // void deleteContour();
+        
         void listContours();
         void draw3D();
-        void setCurrColor();
+        
+        // void setCurrColor();
+        
         void refresh();
         void eraseAll();
 };

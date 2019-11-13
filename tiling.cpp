@@ -1,18 +1,17 @@
 #include "tiling.hpp"
 using namespace std;
 
-double _dist(Point &p, Point &q){
+double _dist_(Point &p, Point &q){
     return sqrt(pow(p.x-q.x,2) + pow(p.y-q.y,2) + pow(p.z-q.z,2));
 }
 
-double _areaTriangle(Point &a,Point &b,Point &c){
-    double sa = _dist(c,b);
-    double sb = _dist(a,c);
-    double sc = _dist(a,b);
+double _areaTriangle_(Point &a,Point &b,Point &c){
+    double sa = _dist_(c,b);
+    double sb = _dist_(a,c);
+    double sc = _dist_(a,b);
     double s = (sa+sb+sc)/2;
     return sqrt(s*(s-sa)*(s-sb)*(s-sc));
 }
-
 
 void optimalTiling(vector<Point> &c1, vector<Point> &c2, vector<Point> &path){
     int c1s = c1.size() + 1, c2s = c2.size() + 1;
@@ -27,21 +26,21 @@ void optimalTiling(vector<Point> &c1, vector<Point> &c2, vector<Point> &path){
     // Base cases :
         dp[0][0] = 0;
         rep(i,1,c1s){
-            dp[i][0] = dp[i-1][0] + _areaTriangle(c2[0],c1[i%c1.size()],c1[i-1]);
+            dp[i][0] = dp[i-1][0] + _areaTriangle_(c2[0],c1[i%c1.size()],c1[i-1]);
             bk[i][0] = 1;
         }
         rep(i,1,c2s){
-            dp[0][i] = dp[0][i-1] + _areaTriangle(c1[0],c2[i%c2.size()],c2[i-1]);
+            dp[0][i] = dp[0][i-1] + _areaTriangle_(c1[0],c2[i%c2.size()],c2[i-1]);
             bk[0][i] = 2;
         }
 
     // DP recursion :
         rep(i,1,c1s){
             rep(j,1,c2s){
-                dp[i][j] = dp[i-1][j] + _areaTriangle(c2[j%c2.size()],c1[i%c1.size()],c1[i-1]);
+                dp[i][j] = dp[i-1][j] + _areaTriangle_(c2[j%c2.size()],c1[i%c1.size()],c1[i-1]);
                 bk[i][j] = 1;
 
-                double temp = dp[i][j-1] + _areaTriangle(c2[j-1],c2[j%c2.size()],c1[i%c1.size()]);
+                double temp = dp[i][j-1] + _areaTriangle_(c2[j-1],c2[j%c2.size()],c1[i%c1.size()]);
                 if(temp<dp[i][j]){
                     dp[i][j] = temp;
                     bk[i][j] = 2;
