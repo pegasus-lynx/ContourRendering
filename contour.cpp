@@ -521,9 +521,9 @@ void getOptPath(cContour& low, cContour& up, vector<Point> &path){
     glBegin(GL_TRIANGLES);
 
     for(auto it:triangles){
-        cout<<it.first.x<<" "<<it.first.y<<" "<<it.first.z<<endl;
-        cout<<it.second.second.x<<" "<<it.second.second.y<<" "<<it.second.second.z<<endl;
-        cout<<it.second.first.x<<" "<<it.second.first.y<<" "<<it.second.first.z<<endl;
+        // cout<<it.first.x<<" "<<it.first.y<<" "<<it.first.z<<endl;
+        // cout<<it.second.second.x<<" "<<it.second.second.y<<" "<<it.second.second.z<<endl;
+        // cout<<it.second.first.x<<" "<<it.second.first.y<<" "<<it.second.first.z<<endl;
         renderTriangle(it.first, it.second.first, it.second.second);
     }
 

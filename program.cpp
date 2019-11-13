@@ -90,10 +90,10 @@ int main(int argc, char **argv) {
 
 	glutInit(&argc, argv);	
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Z-Buffering");
-    glViewport(0, 0, 500, 500);
+	glutInitWindowSize(1000, 1000);
+	glutInitWindowPosition(-1, -1);
+	glutCreateWindow("Contour Rendering");
+    glViewport(-1000, -1000, 5000, 5000);
 
 	glutReshapeFunc(ChangeSize);
     glutKeyboardFunc(keys);
