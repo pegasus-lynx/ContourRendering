@@ -42,6 +42,8 @@ class Point : public Primitive {
         Point(double x, double y, double z);
         double* getPos();
         void plot();
+        double magnitude();
+        void normalize();
 };
 
 class Line : public Primitive {

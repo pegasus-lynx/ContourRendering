@@ -66,6 +66,17 @@ void Point::plot(){
     glEnd();
 }
 
+double Point::magnitude() {
+    return sqrt(x*x + y*y + z*z);
+}
+
+void Point::normalize() {
+    double mag = magnitude();
+    x /= mag;
+    y /= mag;
+    z /= mag;
+}
+
 Line::Line(){
     stPoint = Point();
     endPoint = Point(); 

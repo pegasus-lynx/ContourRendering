@@ -6,25 +6,13 @@
 class Model {
     public:
         bContour *cBox;
-        // RenderStyle rStyle;
-        // bool meshOn, capsOn;
-
-        // Color currCol;
-        // int currLevel;
-        // int numContours;
-
-        // int sepPlane;
 
         Model();
         void addContour();
         void loadContours(char *filename);
         
-        // void deleteContour();
         
-        void listContours();
         void draw3D();
-        
-        // void setCurrColor();
         
         void refresh();
         void eraseAll();

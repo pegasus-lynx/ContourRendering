@@ -11,6 +11,7 @@ void initGL() {
     glLoadIdentity();
     gluOrtho2D(0.0, 500.0, 0.0, 500.0);
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void createWin(int argc,char** argv, char* name,int mode, int x, int y, int h,int w){
