@@ -7,22 +7,46 @@ using namespace std;
 Model model;
 
 GLfloat xRot = 0.0;
-GLfloat yRot = 0.0;
+GLfloat zRot = 0.0;
+GLfloat zoom = 1.0;
 
-void display(){
+int typeMode = 1;
+
+void renderBase(){
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glShadeModel(GL_SMOOTH);
+	glBegin(GL_QUADS);
+
+	glColor3f(0.2f, 1.0f, 0.5f);
+	glNormal3d(0,0,1);
+    glVertex3d(-1000,-1000,0);
+    glVertex3d(-1000,1000,0);
+    glVertex3d(1000,1000,0);
+	glVertex3d(1000,-1000,0);
+
+	glEnd();
+	glDisable(GL_BLEND);
+}
+
+void displaySurface(){
+	
 	GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat mat_shininess[] = { 50.0 };
-	GLfloat light_position[] = { 1.0, 1.0, -10.0, 0.0 };
+	GLfloat light_position[] = { 1.0, 5.0, -10.0, 0.0 };
 	GLfloat light_ambient[] = { 1.0, 0.0, 0.0, 1.0};
+
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glShadeModel(GL_FLAT);
-    // glFrontFace(GL_CW);
+    // glColor3f(0.0f, 1.0f, 0.0f);
+    glFrontFace(GL_CW);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+	
 	// Enable lighting
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
@@ -32,19 +56,46 @@ void display(){
 
 	// glTranslatef(-30.0f, -50.0f, 0.0f);
     glRotatef(xRot, 1.0f, 0.0f, 0.0f);
-    glRotatef(yRot, 0.0f, 1.0f, 0.0f);
+    glRotatef(zRot, 0.0f, 0.0f, 1.0f);
+	glScalef(zoom, zoom, zoom);
 
-    model.draw3D();
+	// Model Rendering
+	renderBase();
+    model.drawSurface();
 
     glPopMatrix();
-
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-    glutSwapBuffers();
 }
 
-void ChangeSize(int w, int h)
-{
+void displayContour(){
+	glLineWidth(2.0);
+	glColor3f(0.0f, 1.0f, 0.0f);
+
+	glPushMatrix();
+
+    glRotatef(xRot, 1.0f, 0.0f, 0.0f);
+    glRotatef(zRot, 0.0f, 0.0f, 1.0f);
+	glScalef(zoom, zoom, zoom);
+
+	model.drawContour();
+
+	glPopMatrix();
+}
+
+void display(){
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+	typeMode==1?displaySurface():displayContour();
+	// glutSwapBuffers();
+	glFlush();
+}
+
+void ChangeSize(int w, int h){
 	GLfloat nRange = 100.0f;
 	if(h == 0)
 		h = 1;
@@ -68,20 +119,36 @@ void sKeys(int key, int x, int y){
 	else if(key == GLUT_KEY_DOWN)
 		xRot += 5.0f;
 	else if(key == GLUT_KEY_RIGHT)
-		yRot -= 5.0f;
+		zRot -= 5.0f;
 	else if(key == GLUT_KEY_LEFT)
-		yRot += 5.0f;
+		zRot += 5.0f;
 	else if(key > 356.0f)
 		xRot = 0.0f;
 	else if(key < -1.0f)
 		xRot = 355.0f;
 	else if(key > 356.0f)
-		yRot = 0.0f;
+		zRot = 0.0f;
 	else if(key < -1.0f)
-		yRot = 355.0f;
+		zRot = 355.0f;
+	else if(key == GLUT_KEY_PAGE_UP)
+		zoom += 0.05f;
+	else if(key == GLUT_KEY_PAGE_DOWN)
+		zoom -= 0.05f;
 	else
 		exit(0);
 	glutPostRedisplay();
+}
+
+void mainMenu(int id){
+	typeMode = id;
+	glutPostRedisplay();
+}
+
+void menu(){
+	glutCreateMenu(mainMenu);
+	glutAddMenuEntry("3D Render", 1);
+	glutAddMenuEntry("Contour Input", 2);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
 int main(int argc, char **argv) {
@@ -90,12 +157,12 @@ int main(int argc, char **argv) {
     // cout << "Input contour filename: ";
     // cin >> fname;
 
-    model.loadContours("sample3.txt");
+    model.loadContours("sample-newking.txt");
 
     // createWin(argc, argv, "Contour Rendering", GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH, 100, 100, 500, 500);
 
 	glutInit(&argc, argv);	
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(1000, 1000);
 	glutInitWindowPosition(-1, -1);
 	glutCreateWindow("Contour Rendering");
@@ -107,6 +174,7 @@ int main(int argc, char **argv) {
     glutDisplayFunc(display);
 
     initGL();
+	menu();
 
     glutMainLoop();
 

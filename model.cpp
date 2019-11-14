@@ -38,6 +38,10 @@ void Model::loadContours(char *filename) {
     }
 }
 
-void Model::draw3D(){
-    cBox->draw3D();
+void Model::drawSurface(){
+    cBox->drawSurface();
+}
+
+void Model::drawContour(){
+    cBox->drawContour();
 }

@@ -12,7 +12,8 @@ class Model {
         void loadContours(char *filename);
         
         
-        void draw3D();
+        void drawSurface();
+        void drawContour();
         
         void refresh();
         void eraseAll();

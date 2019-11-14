@@ -4,7 +4,7 @@
 using namespace std;
 
 
-//////////// Util Functions //////////////////
+//////////// Util Functions /////////////////////////////////////////////////////////////
 
 // Distance between two points
 double _dist(Point &p, Point &q){
@@ -125,12 +125,11 @@ void getOptPath(cContour& low, cContour& up, vector<Point> &path){
     for(auto it:triangles){
         renderTriangle(it.first, it.second.first, it.second.second);
     }
-
-    // Check the path :
-    // cout<<"Debug : "<<path.size()<<endl;
-    // rep(i,0,path.size()) cout<<path[i].x<<" "<<path[i].y<<" "<<path[i].z<<"\n";
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+
+//////////// Contour Methods /////////////////////////////////////////////////////////////
 
 cContour::cContour(){}
 
@@ -143,6 +142,14 @@ void cContour::addControlPts(Point newPt){
     controlPts.pb(newPt);
 }
 
+void cContour::plot(){
+    glBegin(GL_LINE_LOOP);
+    glColor3f(1.0f, 0.2f, 0.5f);
+    rep(i,0,controlPts.size()){
+        glVertex3d(controlPts[i].x,controlPts[i].y,controlPts[i].z);
+    }
+    glEnd();
+}
 
 void bContour::addContour(cContour newContour){
     heights.pb(newContour.ht);
@@ -158,7 +165,7 @@ void bContour::addContour(vector<Point>& pts, double ht){
     contourSet[newContour.ht] = newContour;
 }
 
-void bContour::draw3D(){
+void bContour::drawSurface(){
     // Here algorithm would be to take two adjacent contours
     // Then build the path between then using the DP algorithm
     // Once the path is built, render the surface.
@@ -178,4 +185,12 @@ void bContour::draw3D(){
     }
 
     glDisable(GL_BLEND);
+}
+
+void bContour::drawContour(){
+
+    rep(i,0,heights.size()){
+        contourSet[heights[i]].plot();
+    }
+
 }

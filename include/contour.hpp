@@ -22,6 +22,8 @@ class cContour {
         cContour();
         cContour(double height, bContour *boxPtr);
         void addControlPts(Point newPt);
+
+        void plot();
 };
 
 class bContour {
@@ -31,8 +33,10 @@ class bContour {
 
         void addContour(cContour newContour);
         void addContour(vector<Point>& pts, double ht);
-        // void eraseAll();
-        void draw3D();
+
+        void drawSurface();
+        void drawContour();
+
 };
 
 #endif
