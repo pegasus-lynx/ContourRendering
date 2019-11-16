@@ -52,7 +52,7 @@ void renderTriangle(Point& a,Point& b,Point& c){
 }
 
 // Get the path between the strips
-void getOptPath(cContour& low, cContour& up, vector<Point> &path){
+void getOptPath(Contour& low, Contour& up, vector<Point> &path){
     vector<Point>& lr = low.controlPts;
     vector<Point>& ur = up.controlPts;
     
@@ -131,18 +131,18 @@ void getOptPath(cContour& low, cContour& up, vector<Point> &path){
 
 //////////// Contour Methods /////////////////////////////////////////////////////////////
 
-cContour::cContour(){}
+Contour::Contour(){}
 
-cContour::cContour(double height, bContour* boxPtr){
+Contour::Contour(double height, ContourBox* boxPtr){
     ht = height;
     cBox = boxPtr;
 }
 
-void cContour::addControlPts(Point newPt){
+void Contour::addControlPts(Point newPt){
     controlPts.pb(newPt);
 }
 
-void cContour::plot(){
+void Contour::plot(){
     glBegin(GL_LINE_LOOP);
     glColor3f(1.0f, 0.2f, 0.5f);
     rep(i,0,controlPts.size()){
@@ -151,21 +151,21 @@ void cContour::plot(){
     glEnd();
 }
 
-void bContour::addContour(cContour newContour){
+void ContourBox::addContour(Contour newContour){
     heights.pb(newContour.ht);
     sort(all(heights));
     contourSet[newContour.ht] = newContour;
 }
 
-void bContour::addContour(vector<Point>& pts, double ht){
+void ContourBox::addContour(vector<Point>& pts, double ht){
     heights.pb(ht);
     sort(all(heights));
-    cContour newContour(ht,this);
+    Contour newContour(ht,this);
     rep(i,0,pts.size()) newContour.addControlPts(pts[i]);
     contourSet[newContour.ht] = newContour;
 }
 
-void bContour::drawSurface(){
+void ContourBox::drawSurface(){
     // Here algorithm would be to take two adjacent contours
     // Then build the path between then using the DP algorithm
     // Once the path is built, render the surface.
@@ -176,8 +176,8 @@ void bContour::drawSurface(){
     glShadeModel(GL_SMOOTH);
 
     rep(i,0,heights.size()-1){
-        cContour &lower = contourSet[heights[i]];        
-        cContour &upper = contourSet[heights[i+1]];
+        Contour &lower = contourSet[heights[i]];        
+        Contour &upper = contourSet[heights[i+1]];
 
         vector<Point> optPath;
 
@@ -187,7 +187,7 @@ void bContour::drawSurface(){
     glDisable(GL_BLEND);
 }
 
-void bContour::drawContour(){
+void ContourBox::drawContour(){
 
     rep(i,0,heights.size()){
         contourSet[heights[i]].plot();

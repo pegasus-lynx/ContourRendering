@@ -5,7 +5,7 @@
 
 class Model {
     public:
-        bContour *cBox;
+        ContourBox *cBox;
 
         Model();
         void addContour();

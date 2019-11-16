@@ -11,27 +11,27 @@
 
 using namespace std;
 
-class bContour;
+class ContourBox;
 
-class cContour {
+class Contour {
     public:
         double ht;
         vector<Point> controlPts;
-        bContour* cBox;
+        ContourBox* cBox;
 
-        cContour();
-        cContour(double height, bContour *boxPtr);
+        Contour();
+        Contour(double height, ContourBox *boxPtr);
         void addControlPts(Point newPt);
 
         void plot();
 };
 
-class bContour {
+class ContourBox {
     public:
-        map<double,cContour> contourSet;
+        map<double,Contour> contourSet;
         vector<double> heights;
 
-        void addContour(cContour newContour);
+        void addContour(Contour newContour);
         void addContour(vector<Point>& pts, double ht);
 
         void drawSurface();

@@ -6,7 +6,7 @@
 using namespace std;
 
 Model::Model() {
-    cBox = new bContour;
+    cBox = new ContourBox;
 }
 
 void Model::addContour(){
@@ -25,7 +25,7 @@ void Model::loadContours(char *filename) {
         in >> contourHt;
         in >> numVertices;
 
-        cContour newContour(contourHt, cBox);
+        Contour newContour(contourHt, cBox);
         for (int j = 0; j < numVertices; j++) {
             in >> x >> y;
             newContour.addControlPts(Point(x, y, contourHt));
