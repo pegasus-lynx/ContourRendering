@@ -67,6 +67,21 @@ class Circle : public Closed {
         Circle();
         Circle(double rad, Point& center);
         void plot();
+        void render();
+};
+
+class Triangle : public Closed {
+    public:
+        Point vex[3];
+
+        Triangle();
+        Triangle(Point a,Point b,Point c);
+        Triangle(vector<Point>& pts);
+
+        void plot();
+        void render();
+        double area();
+        Point normal();
 };
 
 class Polygon : public Closed {
@@ -79,6 +94,7 @@ class Polygon : public Closed {
         Polygon(vector<Point>& pts);
         Polygon(vector<pair<double, double> >& vec);
         void plot();
+        void render();
 };
 
 #endif

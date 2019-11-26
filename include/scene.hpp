@@ -1,3 +1,7 @@
+// ==================================================================
+// contains all information relating to scenes and objects in program
+// ==================================================================
+
 #ifndef SCENE_H
 #define SCENE_H
 
@@ -8,20 +12,23 @@
 
 using namespace std;
 
+enum ObjectMode { RELATIVE, ABSOLUTE };
+
 class Scene;
 
 class Object {
     public:
         ContourBox* objBox;
-        int mode; // Absolute or Relative ( Depending on the mode given by the user)
+        ObjectMode mode; // Absolute or Relative ( Depending on the mode given by the user)
         int lightingParams;
+        int obj_id;
 
-        static int obj_id;
+        static int totalObjects;
 
         vector<Point> objPos;
 
         Object();
-        Object(int mode, int lightingParams);
+        Object(ObjectMode mode, int lightingParams);
 
         void addObjectPos(Point);
         void addObjectPos(vector<Point>&);
@@ -30,6 +37,8 @@ class Object {
         void removeObjectPos(vector<Point>&);
 
         void renderObject();
+
+        // Add object scalabitlity later
 };
 
 class Scene {
@@ -46,6 +55,7 @@ class Scene {
         void removeObjectFromPos(int object_id, vector<Point>&);
 
         void renderScene();
+        void renderSceneContours();
 };
 
 #endif

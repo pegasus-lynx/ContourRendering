@@ -162,3 +162,68 @@ void Polygon::plot(){
     }
     glEnd();
 }
+
+Triangle::Triangle(){
+    color = Color();
+    fillColor = Color(0.7,0.7,0.7);
+}
+
+Triangle::Triangle(Point a, Point b, Point c){
+    vex[0] = a;
+    vex[1] = b;
+    vex[2] = c;
+    color = Color();
+    fillColor = Color(0.7,0.7,0.7);
+}
+
+Triangle::Triangle(vector<Point>& pts){
+    rep(i,0,3) vex[i]=pts[i];
+    color = Color();
+    fillColor = Color(0.7,0.7,0.7);
+}
+
+void Triangle::plot(){
+    glColor4d(color.r,color.g,color.b,color.a);
+    glBegin(GL_LINE_LOOP);
+    rep(i,0,3){
+        glVertex3d(vex[i].x,vex[i].y,vex[i].z);
+    }
+    glEnd();    
+}
+
+void Triangle::render(){
+    Point nor = normal();
+
+    glBegin(GL_TRIANGLES);
+
+    glColor3f(1.0f, 0.2f, 0.5f);
+    glNormal3d(nor.x,nor.y,nor.z);
+    glVertex3d(vex[0].x,vex[0].y,vex[0].z);
+    glVertex3d(vex[1].x,vex[1].y,vex[1].z);
+    glVertex3d(vex[2].x,vex[2].y,vex[2].z);
+
+    glEnd();
+}
+
+double Triangle::area(){
+    double sa = sqrt(pow(vex[0].x-vex[1].x,2)+pow(vex[0].y-vex[1].y,2)+pow(vex[0].z-vex[1].z,2));
+    double sb = sqrt(pow(vex[1].x-vex[2].x,2)+pow(vex[1].y-vex[2].y,2)+pow(vex[1].z-vex[2].z,2));
+    double sc = sqrt(pow(vex[2].x-vex[0].x,2)+pow(vex[2].y-vex[0].y,2)+pow(vex[2].z-vex[0].z,2));
+    double s = (sa+sb+sc)/2;
+    return sqrt(s*(s-sa)*(s-sb)*(s-sc));
+}
+
+Point Triangle::normal(){
+    Point v1(vex[1].x-vex[0].x, vex[1].y-vex[0].y, vex[1].z-vex[0].z);
+    Point v2(vex[2].x-vex[0].x, vex[2].y-vex[0].y, vex[2].z-vex[0].z);
+
+    Point nor;
+
+    nor.x = v1.y*v2.z - v1.z*v2.y;
+    nor.y = v1.z*v2.x - v1.x*v2.z;
+    nor.z = v1.x*v2.y - v1.y*v2.x;
+
+    nor.normalize();
+
+    return nor;
+}

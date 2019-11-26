@@ -1,6 +1,8 @@
-// ==================================================================
+// =======================================================================
 // contains all information relating to contours in program
-// ==================================================================
+//      contours are used to make the objects.
+//      contourbox represents the a set of contours defining an object
+// =======================================================================
 
 #ifndef CONTOUR_H
 #define CONTOUR_H
@@ -36,6 +38,9 @@ class ContourBox {
 
         void drawSurface();
         void drawContour();
+
+        void _renderStrip(Contour& a, Contour& b);
+        
 
 };
 
